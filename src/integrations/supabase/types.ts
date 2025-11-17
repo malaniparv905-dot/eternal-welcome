@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      outfits: {
+        Row: {
+          ai_generated: boolean | null
+          created_at: string
+          id: string
+          items: Json
+          name: string
+          occasion: string
+          scheduled_date: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_generated?: boolean | null
+          created_at?: string
+          id?: string
+          items: Json
+          name: string
+          occasion: string
+          scheduled_date?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_generated?: boolean | null
+          created_at?: string
+          id?: string
+          items?: Json
+          name?: string
+          occasion?: string
+          scheduled_date?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -32,6 +65,48 @@ export type Database = {
           full_name?: string
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      wardrobe_items: {
+        Row: {
+          category: string
+          color: string | null
+          created_at: string
+          dress_code: string
+          id: string
+          image_url: string
+          name: string
+          notes: string | null
+          season: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          color?: string | null
+          created_at?: string
+          dress_code: string
+          id?: string
+          image_url: string
+          name: string
+          notes?: string | null
+          season?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          color?: string | null
+          created_at?: string
+          dress_code?: string
+          id?: string
+          image_url?: string
+          name?: string
+          notes?: string | null
+          season?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
