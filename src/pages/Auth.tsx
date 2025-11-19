@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { User } from "@supabase/supabase-js";
+import { loginSchema, signupSchema } from "@/lib/validation";
+import { z } from "zod";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -44,9 +46,22 @@ const Auth = () => {
 
     try {
       if (isLogin) {
+        // Validate login input
+        const validationResult = loginSchema.safeParse({ email, password });
+        if (!validationResult.success) {
+          const firstError = validationResult.error.errors[0];
+          toast({
+            title: "Validation Error",
+            description: firstError.message,
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+
         const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
+          email: validationResult.data.email,
+          password: validationResult.data.password,
         });
 
         if (error) throw error;
@@ -56,10 +71,13 @@ const Auth = () => {
           description: "You've successfully logged in.",
         });
       } else {
-        if (!fullName.trim()) {
+        // Validate signup input
+        const validationResult = signupSchema.safeParse({ email, password, fullName });
+        if (!validationResult.success) {
+          const firstError = validationResult.error.errors[0];
           toast({
-            title: "Name required",
-            description: "Please enter your full name.",
+            title: "Validation Error",
+            description: firstError.message,
             variant: "destructive",
           });
           setLoading(false);
@@ -67,12 +85,12 @@ const Auth = () => {
         }
 
         const { error } = await supabase.auth.signUp({
-          email,
-          password,
+          email: validationResult.data.email,
+          password: validationResult.data.password,
           options: {
             emailRedirectTo: `${window.location.origin}/`,
             data: {
-              full_name: fullName,
+              full_name: validationResult.data.fullName,
             },
           },
         });
