@@ -76,70 +76,81 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <div className="min-h-screen wardrobe-bg wardrobe-texture">
       <Navbar user={user} profile={profile} />
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in-50 slide-in-from-bottom-10 duration-700">
-          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <div className="inline-flex items-center gap-3 mb-4 px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
+            <Shirt className="h-5 w-5 text-primary" />
+            <span className="text-sm font-medium text-primary">Your Personal Style Assistant</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold font-serif bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent leading-tight">
             Welcome back, {profile?.full_name || "User"}! 👋
           </h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-2xl font-medium text-foreground/80">
             Style Smarter with Your Virtual Wardrobe
           </p>
-          <p className="text-lg text-muted-foreground">
-            Upload your clothes, create outfits, and get AI-powered suggestions for every occasion.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Upload your clothes, create stunning outfits, and get AI-powered suggestions for every occasion. Your digital closet awaits!
           </p>
         </div>
       </section>
 
       {/* Quick Actions */}
       <section className="container mx-auto px-4 py-8">
-        <Card className="shadow-[var(--shadow-elegant)] border-border/50 animate-in fade-in-50 slide-in-from-bottom-10 duration-500">
-          <CardHeader>
-            <CardTitle className="text-2xl flex items-center gap-2">
-              <Zap className="h-6 w-6 text-primary" />
+        <Card className="glass-card shadow-[var(--shadow-elegant)] border-primary/10 animate-in fade-in-50 slide-in-from-bottom-10 duration-500 overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-secondary"></div>
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-3xl font-serif flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Zap className="h-6 w-6 text-primary" />
+              </div>
               Quick Actions
             </CardTitle>
-            <CardDescription>Jump right into your wardrobe management</CardDescription>
+            <CardDescription className="text-base">Jump right into your wardrobe management</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <Link to="/wardrobe">
+              <Link to="/wardrobe" className="group">
                 <Button 
                   variant="outline" 
-                  className="w-full h-24 flex flex-col items-center justify-center gap-2 hover:bg-primary/10 hover:border-primary transition-all duration-300"
+                  className="w-full h-32 flex flex-col items-center justify-center gap-3 hover:bg-primary/10 hover:border-primary hover:shadow-[var(--shadow-card)] transition-all duration-300 relative overflow-hidden"
                 >
-                  <Camera className="h-6 w-6" />
-                  <span className="text-xs">Upload Items</span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Camera className="h-8 w-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-sm font-medium">Upload Items</span>
                 </Button>
               </Link>
-              <Link to="/outfit-generator?occasion=casual">
+              <Link to="/outfit-generator?occasion=casual" className="group">
                 <Button 
                   variant="outline" 
-                  className="w-full h-24 flex flex-col items-center justify-center gap-2 hover:bg-primary/10 hover:border-primary transition-all duration-300"
+                  className="w-full h-32 flex flex-col items-center justify-center gap-3 hover:bg-primary/10 hover:border-primary hover:shadow-[var(--shadow-card)] transition-all duration-300 relative overflow-hidden"
                 >
-                  <Shirt className="h-6 w-6" />
-                  <span className="text-xs">Casual Outfit</span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Shirt className="h-8 w-8 text-accent group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-sm font-medium">Casual Outfit</span>
                 </Button>
               </Link>
-              <Link to="/calendar">
+              <Link to="/calendar" className="group">
                 <Button 
                   variant="outline" 
-                  className="w-full h-24 flex flex-col items-center justify-center gap-2 hover:bg-primary/10 hover:border-primary transition-all duration-300"
+                  className="w-full h-32 flex flex-col items-center justify-center gap-3 hover:bg-primary/10 hover:border-primary hover:shadow-[var(--shadow-card)] transition-all duration-300 relative overflow-hidden"
                 >
-                  <Calendar className="h-6 w-6" />
-                  <span className="text-xs">Plan Outfit</span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Calendar className="h-8 w-8 text-secondary group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-sm font-medium">Plan Outfit</span>
                 </Button>
               </Link>
-              <Link to="/shopping">
+              <Link to="/shopping" className="group">
                 <Button 
                   variant="outline" 
-                  className="w-full h-24 flex flex-col items-center justify-center gap-2 hover:bg-primary/10 hover:border-primary transition-all duration-300"
+                  className="w-full h-32 flex flex-col items-center justify-center gap-3 hover:bg-primary/10 hover:border-primary hover:shadow-[var(--shadow-card)] transition-all duration-300 relative overflow-hidden"
                 >
-                  <ShoppingBag className="h-6 w-6" />
-                  <span className="text-xs">Shopping</span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <ShoppingBag className="h-8 w-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-sm font-medium">Shopping</span>
                 </Button>
               </Link>
             </div>
@@ -148,46 +159,50 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-8 pb-16">
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card className="shadow-lg border-border/50 hover:shadow-xl transition-all duration-300 hover:border-primary/50">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-4">
-                <Shirt className="h-8 w-8 text-primary" />
+      <section className="container mx-auto px-4 py-16">
+        <div className="text-center mb-16 space-y-3">
+          <h2 className="text-4xl md:text-5xl font-bold font-serif">Everything You Need</h2>
+          <p className="text-muted-foreground text-lg">Powerful features to manage your style effortlessly</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <Card className="glass-card text-center p-8 hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-2 group">
+            <CardHeader>
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Shirt className="h-10 w-10 text-primary" />
               </div>
-              <CardTitle className="text-primary">Wardrobe Management</CardTitle>
+              <CardTitle className="text-2xl font-serif">Wardrobe Management</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                Organize and categorize your clothes with ease. Upload photos, add tags, and keep track of your entire wardrobe.
+              <p className="text-base leading-relaxed text-muted-foreground">
+                Organize your entire wardrobe digitally. Upload photos, categorize items by dress code, season, and color for easy access.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg border-border/50 hover:shadow-xl transition-all duration-300 hover:border-secondary/50">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center mb-4">
-                <Sparkles className="h-8 w-8 text-secondary" />
+          <Card className="glass-card text-center p-8 hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-2 group">
+            <CardHeader>
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Sparkles className="h-10 w-10 text-accent" />
               </div>
-              <CardTitle className="text-secondary">AI Outfit Generator</CardTitle>
+              <CardTitle className="text-2xl font-serif">AI Outfit Generator</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                Get personalized outfit suggestions powered by AI. Perfect combinations for any occasion or weather.
+              <p className="text-base leading-relaxed text-muted-foreground">
+                Get personalized outfit suggestions powered by AI. Perfect combinations for any occasion, weather, or mood instantly.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg border-border/50 hover:shadow-xl transition-all duration-300 hover:border-accent/50">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-4">
-                <Calendar className="h-8 w-8 text-accent" />
+          <Card className="glass-card text-center p-8 hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-2 group">
+            <CardHeader>
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Calendar className="h-10 w-10 text-secondary" />
               </div>
-              <CardTitle className="text-accent">Calendar Planning</CardTitle>
+              <CardTitle className="text-2xl font-serif">Calendar Planning</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground">
-                Plan your outfits in advance. Schedule looks for upcoming events and never repeat the same outfit.
+              <p className="text-base leading-relaxed text-muted-foreground">
+                Plan your outfits ahead of time. Schedule looks for important events and never repeat the same outfit unnecessarily.
               </p>
             </CardContent>
           </Card>
