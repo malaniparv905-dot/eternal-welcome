@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
-import WardrobeImage from "@/components/WardrobeImage";
-import { outfitGenerationSchema } from "@/lib/validation";
 
 const OutfitGenerator = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -84,23 +82,10 @@ const OutfitGenerator = () => {
   };
 
   const generateOutfit = async () => {
-    // Validate input
-    const validationResult = outfitGenerationSchema.safeParse({
-      occasion: selectedOccasion,
-      items: items.map(item => ({
-        id: item.id,
-        name: item.name,
-        category: item.category,
-        dress_code: item.dress_code,
-        color: item.color,
-      }))
-    });
-
-    if (!validationResult.success) {
-      const firstError = validationResult.error.errors[0];
+    if (items.length < 3) {
       toast({
-        title: "Validation Error",
-        description: firstError.message,
+        title: "Not enough items",
+        description: "Add at least 3 items to your wardrobe first",
         variant: "destructive"
       });
       return;
@@ -109,10 +94,7 @@ const OutfitGenerator = () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke('generate-outfit', {
-        body: { 
-          items: validationResult.data.items, 
-          occasion: validationResult.data.occasion 
-        }
+        body: { items, occasion: selectedOccasion }
       });
 
       if (error) throw error;
@@ -214,20 +196,20 @@ const OutfitGenerator = () => {
                 </div>
 
                 {generatedOutfit && (
-                <div className="mt-8">
-                  <h3 className="text-xl font-semibold mb-4 text-center">Your Perfect Outfit</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-                    {generatedOutfit.outfit.map((itemId: string) => {
-                      const item = items.find(i => i.id === itemId);
-                      if (!item) return null;
-                      return (
-                        <Card key={item.id} className="overflow-hidden">
-                          <div className="aspect-square">
-                            <WardrobeImage 
-                              imagePath={item.image_url} 
-                              alt={item.name}
-                              className="w-full h-full object-cover"
-                            />
+                  <div className="mt-8">
+                    <h3 className="text-xl font-semibold mb-4 text-center">Your Perfect Outfit</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                      {generatedOutfit.outfit.map((itemId: string) => {
+                        const item = items.find(i => i.id === itemId);
+                        if (!item) return null;
+                        return (
+                          <Card key={item.id} className="overflow-hidden">
+                            <div className="aspect-square">
+                              <img 
+                                src={item.image_url} 
+                                alt={item.name}
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                             <CardContent className="p-3">
                               <h4 className="font-semibold text-sm truncate">{item.name}</h4>

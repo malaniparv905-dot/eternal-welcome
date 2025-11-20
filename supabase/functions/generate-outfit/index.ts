@@ -11,33 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const body = await req.json();
-    const { items, occasion } = body;
-
-    // Validate inputs
-    if (!items || !Array.isArray(items) || items.length < 3) {
-      return new Response(
-        JSON.stringify({ error: 'At least 3 items are required' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
-      );
-    }
-
-    if (!occasion || typeof occasion !== 'string' || occasion.length > 50) {
-      return new Response(
-        JSON.stringify({ error: 'Valid occasion is required (max 50 characters)' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
-      );
-    }
-
-    // Validate each item structure
-    for (const item of items) {
-      if (!item.id || !item.name || !item.category || !item.dress_code) {
-        return new Response(
-          JSON.stringify({ error: 'Invalid item data structure' }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
-        );
-      }
-    }
+    const { items, occasion } = await req.json();
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     
@@ -45,18 +19,11 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    // Sanitize inputs by truncating and removing special characters
-    const sanitizedOccasion = occasion.trim().substring(0, 50).replace(/[^\w\s-]/g, '');
-    
-    const itemDescriptions = items.map((item: any) => {
-      const name = String(item.name || '').substring(0, 100);
-      const category = String(item.category || '').substring(0, 50);
-      const dressCode = String(item.dress_code || '').substring(0, 50);
-      const color = item.color ? String(item.color).substring(0, 30) : 'no color';
-      return `${name} (${category}, ${dressCode}, ${color})`;
-    }).join(', ');
+    const itemDescriptions = items.map((item: any) => 
+      `${item.name} (${item.category}, ${item.dress_code}, ${item.color || 'no color'})`
+    ).join(', ');
 
-    const prompt = `You are a fashion stylist AI. Create a stylish outfit for a ${sanitizedOccasion} occasion.
+    const prompt = `You are a fashion stylist AI. Create a stylish outfit for a ${occasion} occasion.
     
 Available items: ${itemDescriptions}
 

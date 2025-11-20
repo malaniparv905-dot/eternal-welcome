@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UploadItemDialog from "@/components/UploadItemDialog";
 import { useToast } from "@/hooks/use-toast";
-import WardrobeImage from "@/components/WardrobeImage";
 
 const Wardrobe = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -177,8 +176,8 @@ const Wardrobe = () => {
                     {filteredItems.map((item) => (
                       <Card key={item.id} className="overflow-hidden group relative">
                         <div className="aspect-square relative">
-                          <WardrobeImage 
-                            imagePath={item.image_url} 
+                          <img 
+                            src={item.image_url} 
                             alt={item.name}
                             className="w-full h-full object-cover"
                           />

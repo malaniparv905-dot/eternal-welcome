@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Camera, Upload, Loader2 } from "lucide-react";
-import { wardrobeItemSchema, validateImageFile } from "@/lib/validation";
 
 interface UploadItemDialogProps {
   open: boolean;
@@ -38,16 +37,6 @@ export default function UploadItemDialog({ open, onOpenChange, onUploadComplete 
 
   const handleFileChange = (file: File | null) => {
     if (file) {
-      const validation = validateImageFile(file);
-      if (!validation.valid) {
-        toast({
-          title: "Invalid File",
-          description: validation.error,
-          variant: "destructive"
-        });
-        return;
-      }
-
       setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -59,23 +48,10 @@ export default function UploadItemDialog({ open, onOpenChange, onUploadComplete 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate form data
-    const validationResult = wardrobeItemSchema.safeParse(formData);
-    if (!validationResult.success) {
-      const firstError = validationResult.error.errors[0];
+    if (!imageFile || !formData.name || !formData.category || !formData.dressCode) {
       toast({
-        title: "Validation Error",
-        description: firstError.message,
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!imageFile) {
-      toast({
-        title: "Missing Image",
-        description: "Please upload an image",
+        title: "Missing Information",
+        description: "Please fill in all required fields and upload an image",
         variant: "destructive"
       });
       return;
@@ -95,21 +71,23 @@ export default function UploadItemDialog({ open, onOpenChange, onUploadComplete 
 
       if (uploadError) throw uploadError;
 
-      // Store the file path instead of public URL since bucket is now private
-      const imagePath = fileName;
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('wardrobe')
+        .getPublicUrl(fileName);
 
       // Save item to database
       const { error: dbError } = await supabase
         .from('wardrobe_items')
         .insert({
           user_id: user.id,
-          image_url: imagePath,
-          name: validationResult.data.name,
-          category: validationResult.data.category,
-          dress_code: validationResult.data.dressCode,
-          color: validationResult.data.color || null,
-          season: validationResult.data.season || null,
-          notes: validationResult.data.notes || null
+          image_url: publicUrl,
+          name: formData.name,
+          category: formData.category,
+          dress_code: formData.dressCode,
+          color: formData.color || null,
+          season: formData.season || null,
+          notes: formData.notes || null
         });
 
       if (dbError) throw dbError;
