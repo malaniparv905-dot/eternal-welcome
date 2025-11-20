@@ -124,24 +124,6 @@ const Index = () => {
                   <span className="text-xs">Casual Outfit</span>
                 </Button>
               </Link>
-              <Link to="/outfit-generator?occasion=business">
-                <Button 
-                  variant="outline" 
-                  className="w-full h-24 flex flex-col items-center justify-center gap-2 hover:bg-primary/10 hover:border-primary transition-all duration-300"
-                >
-                  <span className="text-2xl">💼</span>
-                  <span className="text-xs">Business</span>
-                </Button>
-              </Link>
-              <Link to="/outfit-generator?occasion=date">
-                <Button 
-                  variant="outline" 
-                  className="w-full h-24 flex flex-col items-center justify-center gap-2 hover:bg-primary/10 hover:border-primary transition-all duration-300"
-                >
-                  <span className="text-2xl">💑</span>
-                  <span className="text-xs">Date Night</span>
-                </Button>
-              </Link>
               <Link to="/calendar">
                 <Button 
                   variant="outline" 
