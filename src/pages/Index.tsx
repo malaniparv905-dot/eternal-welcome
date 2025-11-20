@@ -105,7 +105,7 @@ const Index = () => {
             <CardDescription>Jump right into your wardrobe management</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <Link to="/wardrobe">
                 <Button 
                   variant="outline" 
