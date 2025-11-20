@@ -61,6 +61,15 @@ export default {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        wardrobe: {
+          wood: "hsl(var(--wardrobe-wood))",
+          gold: "hsl(var(--wardrobe-gold))",
+          cream: "hsl(var(--wardrobe-cream))",
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
